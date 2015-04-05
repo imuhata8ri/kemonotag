@@ -1,0 +1,10 @@
+indexes:
+- kind: MyRtagData
+  properties:
+  - name: pagenum
+  - name: parenttag
+
+- kind: MyPixivRtagData
+  properties:
+  - name: pagenum
+  - name: parenttag

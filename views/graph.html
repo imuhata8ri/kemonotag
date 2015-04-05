@@ -1,0 +1,49 @@
+<html>
+  <head>
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+    <script type="text/javascript" src="/code.js?page={{page}}"></script>
+  </head>
+
+  <body>
+    <!--Div that will hold the pie chart-->
+    <h1>Pixiv Tag Visualization Tool</h1>
+    <p>Pixivのタグ数を調べてみる。</p>
+    <form method="post" action="/graph">
+      <table>
+        <tr>
+          <th>タグ：</th>
+          <td>
+          <SELECT name="graphtype">
+            <OPTION value="Pie">Pie</OPTION>
+            <OPTION value="Bar">Bar</OPTION>
+          </SELECT>
+          </td>
+        </tr>
+        <tr>
+          <th>カテゴリ</th>
+          <td>
+           <SELECT name="range">
+            <OPTION value="-tagnum">上位</OPTION>
+            <OPTION value="tagnum">下位</OPTION>
+          </SELECT>
+          </td>
+        <tr>
+          <th>件数</th>
+          <td>
+            <input name="number"></input>
+          </td>
+        </tr>
+        <tr>
+          <th></th>
+            <td><input type="submit" value="送信" /></td>
+        </tr>
+      </table>
+    </form>
+    <hr />
+    <div id="chart_div"></div>
+    <hr />
+    <p>{{code}}</p>
+  </body>
+</html>

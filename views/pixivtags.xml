@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PixivTagData>
+{% for data in datas %}
+<TAGS>
+	<TAG>{{data.tag}}</TAG>
+	<TAGNUM>{{data.tagnum}}</TAGNUM>
+	<TIME>{{data.time}}</TIME>
+</TAGS>
+{% endfor %}
+</PixivTagData>

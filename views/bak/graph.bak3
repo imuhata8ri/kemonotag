@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+        xml:lang="ja" lang="ja">
+    <head>
+        <meta http-equiv="Content-Type"
+            content="text/html; charset=UTF-8" />
+        <title>Home</title>
+    </head>
+    <body>
+        <h1>Home Page</h1>
+        <p>Pixivのタグ数を視覚化してみる。</p>
+        <form method="post" action="/">
+        <table>
+            <tr>
+            <th>グラフ情報：</th>
+            </tr>
+            <tr><th></th>
+            <td>
+	      <select name="graphtype">
+		<option value="line">line</option>
+		<option value="pie">pie</option>
+	    </td></tr>
+        </table>
+        </form>
+        <hr />
+	<img src="{{graphurl}}" alt="Pixiv" width="400" height="300">
+    </body>
+</html>

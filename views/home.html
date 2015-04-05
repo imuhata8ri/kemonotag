@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+        xml:lang="ja" lang="ja">
+    <head>
+        <meta http-equiv="Content-Type"
+            content="text/html; charset=UTF-8" />
+        <title>Home</title>
+    </head>
+    <body>
+        <h1>Home Page</h1>
+        <p>Pixivのタグ数を調べてみる。</p>
+        <form method="post" action="/">
+        <table>
+            <tr>
+            <th>タグ：</th>
+            <td><input type="text" name="name" /></td>
+            </tr>
+            <tr><th></th>
+            <td><input type="submit" value="送信" /></td></tr>
+        </table>
+        </form>
+        <hr />
+        <table border="1" width="500px">
+        <tr>
+        <th width="350px">タグ</th>
+        <th width="150px">タグ数</th>
+        </tr>
+        {% for data in datas %}
+        <tr>
+        <td>{{data.tag}}<br />
+        ({{data.time}})</td>
+        <td>{{data.tagnum}}</td>
+        </tr>
+        {% endfor %}
+        </table>
+    </body>
+</html>

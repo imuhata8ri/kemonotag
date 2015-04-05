@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<body>
+<script src="./lib/d3/d3.js"></script>
+<script src="./d3.layout.cloud.js"></script>
+<script>
+  var fill = d3.scale.category20();
+
+  d3.layout.cloud().size([800, 800])
+      .words([
+        "メスケモ",
+        "furry",
+        "ケモショタ",
+        "漫画",
+        "ケモノ",
+        "漫画",
+        "獣人",
+        "落書き",
+        "ケモショタ",
+        "バレンタイン",
+        "創作",
+        "筋肉",
+        "人外",
+        "UTAU獣人",
+        "獣",
+        "メスケモ",
+        "オリキャラ",
+        "オスケモ",
+        "ドラゴン",
+        "原创",
+        "ケモ",
+        "猫",
+        "ケモロリ",
+        "ふんどし",
+        "チビ",
+        "ケモ熟女",
+        "かわいい",
+        "瑳蘭乃籠",
+        "ショタ",
+        "ポケモン",
+        "犬",
+        "獣人"
+].map(function(d) {
+        return {text: d, size: 14 + Math.random() * 90};
+      }))
+      .padding(5)
+      .rotate(function() { return ~~(Math.random() * 3) * 90; })
+      .font("Impact")
+      .fontSize(function(d) { return d.size; })
+      .on("end", draw)
+      .start();
+
+  function draw(words) {
+    d3.select("body").append("svg")
+        .attr("width", 1200)
+        .attr("height", 1600)
+      .append("g")
+        .attr("transform", "translate(400,400)")
+      .selectAll("text")
+        .data(words)
+      .enter().append("text")
+        .style("font-size", function(d) { return d.size + "px"; })
+        .style("font-family", "Impact")
+        .style("fill", function(d, i) { return fill(i); })
+        .attr("text-anchor", "middle")
+        .attr("transform", function(d) {
+          return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+        })
+        .text(function(d) { return d.text; });
+  }
+</script>

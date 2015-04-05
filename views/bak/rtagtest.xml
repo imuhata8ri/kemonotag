@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PixivTagData>
+{% regroup datas by pagenum as pagenum_list %}
+{% for pagenum in pagenum_list %}
+<TAGS>
+  <PAGE page="{{pagenum.grouper}}">
+    {% regroup pagenum.list by parenttag as parenttag_list %}
+    {% for parenttag in parenttag_list %}
+    <PARENT parent="{{parenttag.grouper}}">
+      {% regroup parenttag.list by tag as tag_list %}
+      {% for tag in tag_list %}
+      <TAG>{{tag.grouper}}</TAG>
+      {% endfor %}
+    </PARENT>
+    {% endfor %}
+  </PAGE>
+</TAGS>
+{% endfor %}
+</PixivTagData>

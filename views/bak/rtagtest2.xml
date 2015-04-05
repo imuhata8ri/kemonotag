@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PixivTagData>
+<TAGS>
+{% for data in datas %}
+
+  {% if forloop.counter == 1 %}
+  <PAGE page="{{data.pagenum}}">
+    <PARENT parent="{{data.parenttag}}">
+      <TAG>{{ data.tag }}</TAG>
+  {% else %}
+
+    {% if forloop.revcounter == 1 %}
+      <TAG>{{ data.tag }}</TAG>
+    </PARENT>
+  </PAGE>
+
+    {% else %}
+      {% ifchanged data.pagenum %}
+  </PAGE>
+  <PAGE page="{{data.pagenum}}">
+    <PARENT parent="{{data.parenttag}}">
+      <TAG>{{ data.tag }}</TAG>
+
+      {% else %}
+        {% ifchanged data.parenttag %}
+    </PARENT>
+    <PARENT parent="{{data.parenttag}}">
+        {% endifchanged %}
+      <TAG>{{ data.tag }}</TAG>
+
+      {% endifchanged %}
+
+    {% endif %}
+  {% endif %}
+{% endfor %}
+</TAGS>
+</PixivTagData>

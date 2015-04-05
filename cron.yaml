@@ -1,0 +1,35 @@
+cron:
+- description: daily summary job
+  url: /reload
+  schedule: every 3 hours synchronized
+  timezone: Asia/Tokyo
+
+- description: daily summary job
+  url: /rtag
+  schedule: every 24 hours synchronized
+  timezone: Asia/Tokyo
+
+- description: daily summary job
+  url: /pixivrtag
+  schedule: every 24 hours synchronized
+  timezone: Asia/Tokyo
+
+- description: daily summary job
+  url: /databackup
+  schedule: every 24 hours synchronized
+  timezone: Asia/Tokyo
+
+- description: daily summary job
+  url: /csv
+  schedule: every 24 hours from 00:05 to 01:05
+  timezone: Asia/Tokyo
+
+- description: daily summary job
+  url: /jsondata
+  schedule: every 24 hours from 00:05 to 01:05
+  timezone: Asia/Tokyo
+
+- description: daily summary job
+  url: /xmlrtagreload
+  schedule: every 24 hours synchronized
+  timezone: Asia/Tokyo

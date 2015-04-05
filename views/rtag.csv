@@ -1,0 +1,2 @@
+{% for data in datas %}{{data.parenttag}},{{data.tag}}
+{% endfor %}

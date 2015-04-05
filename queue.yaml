@@ -1,0 +1,14 @@
+queue:
+- name: default
+  rate: 1/m
+  bucket_size: 40
+  max_concurrent_requests: 2
+  retry_parameters:
+    min_backoff_seconds: 10
+    max_backoff_seconds: 200
+    max_doublings: 2
+    task_retry_limit: 2
+    task_age_limit: 10m
+
+- name: reload
+  rate: 5/s
