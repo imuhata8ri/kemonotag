@@ -252,6 +252,9 @@ class CreateNetworkJson(webapp.RequestHandler):
     month = []
     for csventity in csvdata:
       json = csventity.csv
+      if json.find(',') > 1:
+        json.replace(',',u"，")
+        json.replace(u"，",',',1)
       month.append(json)
     month = unicode("\n".join(month))
     jsondatamonth = network.createjson(month)
@@ -263,6 +266,9 @@ class CreateNetworkJson(webapp.RequestHandler):
     week = []
     for n in range (0, 7):
       json = csvdata[n].csv
+      if json.find(',') > 1:
+        json.replace(',',u"，")
+        json.replace(u"，",',',1)
       week.append(json)
     week = unicode("\n".join(week))
     jsondataweek = network.createjson(week)
@@ -275,6 +281,9 @@ class CreateNetworkJson(webapp.RequestHandler):
       day = csvdata[n].csv
     #for csventity in csvdata:
       #json = csventity.csv
+      if day.find(',') > 1:
+        day.replace(',',u"，")
+        day.replace(u"，",',',1)
     jsondata = network.createjson(day)
     memcache.set(key = "json", value=jsondata)
     obj = JsonData(json=jsondata)
@@ -282,8 +291,7 @@ class CreateNetworkJson(webapp.RequestHandler):
 
 class Script(webapp.RequestHandler):
   def get(self,timespan):
-    logging.debug(timespan):
-
+    logging.debug(timespan)
     fpath = os.path.join(os.path.dirname(__file__),"d3","script.js")
     js = template.render(fpath, timespan)
     self.response.headers['Content-Type'] = "text/javascript"
