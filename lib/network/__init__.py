@@ -27,10 +27,18 @@ def createjson(datas):
     #allLines = open('edges5.Csv').read().encode('utf-8')
     allLines = datas
     #allLines = open(/csv).read().encode('utf-8')
+    list = allLines.splitlines()
+    datalist = []
+    for n in list:
+        if n.count(",") > 1:
+            logging.info(n)
+            n = n.replace(",",u"，").replace(u"，",",", 1)
+        datalist.append(n)
+    datalist = '\n'.join(datalist)
     
-    data = StringIO.StringIO(allLines)
+    datalist = StringIO.StringIO(datalist)
     G = nx.Graph()
-    edges = nx.read_edgelist(data, delimiter=',', nodetype=unicode)
+    edges = nx.read_edgelist(datalist, delimiter=',', nodetype=unicode)
     for e in edges.edges():
         G.add_edge(*e)
     

@@ -248,27 +248,20 @@ class CreateNetworkJson(webapp.RequestHandler):
   def get(self):
     csvdata = db.GqlQuery("SELECT * FROM CsvData ORDER BY time DESC limit 30")
 
-    #Monthly data
-    month = []
-    for csventity in csvdata:
-      json = csventity.csv
-      if json.find(',') > 1:
-        json.replace(',',u"，")
-        json.replace(u"，",',',1)
-      month.append(json)
-    month = unicode("\n".join(month))
-    jsondatamonth = network.createjson(month)
-    memcache.set(key = "jsonmonth", value=jsondatamonth)
-    obj = JsonDataMonth(json=jsondatamonth)
+    #Day data
+    for n in range (0, 1):
+      day = csvdata[n].csv
+    #for csventity in csvdata:
+      #json = csventity.csv
+    jsondata = network.createjson(day)
+    memcache.set(key = "json", value=jsondata)
+    obj = JsonData(json=jsondata)
     obj.put()
 
     #Weekly data
     week = []
     for n in range (0, 7):
       json = csvdata[n].csv
-      if json.find(',') > 1:
-        json.replace(',',u"，")
-        json.replace(u"，",',',1)
       week.append(json)
     week = unicode("\n".join(week))
     jsondataweek = network.createjson(week)
@@ -276,18 +269,19 @@ class CreateNetworkJson(webapp.RequestHandler):
     obj = JsonDataWeek(json=jsondataweek)
     obj.put()
 
-    #Day data
-    for n in range (0, 1):
-      day = csvdata[n].csv
-    #for csventity in csvdata:
-      #json = csventity.csv
-      if day.find(',') > 1:
-        day.replace(',',u"，")
-        day.replace(u"，",',',1)
-    jsondata = network.createjson(day)
-    memcache.set(key = "json", value=jsondata)
-    obj = JsonData(json=jsondata)
+    #Monthly data
+    month = []
+    for csventity in csvdata:
+      json = csventity.csv
+      month.append(json)
+    month = unicode("\n".join(month))
+    logging.debug(month)
+    jsondatamonth = network.createjson(month)
+    memcache.set(key = "jsonmonth", value=jsondatamonth)
+    obj = JsonDataMonth(json=jsondatamonth)
     obj.put()
+
+
 
 class Script(webapp.RequestHandler):
   def get(self,timespan):
@@ -638,6 +632,7 @@ def r18parser (tag):
 def reltagparser (page,tag):
   first_block = None
   rtaglist = []
+  commacheck = []
   pageurl = "http://www.pixiv.net/search.php?" + \
             urllib.urlencode( 
               {"s_mode":"s_tag_full",
@@ -647,7 +642,13 @@ def reltagparser (page,tag):
              } 
             )
   print pageurl
-  page = br.open(pageurl)
+  try:
+    page = br.open(pageurl)
+  except:
+    print 'Error at pixivLogin():',sys.exc_info()
+    print 'failed'
+    return
+
   print 'tag url opened!'
   readpage = page.read()
   soup = BeautifulSoup(readpage)
@@ -655,13 +656,20 @@ def reltagparser (page,tag):
     for dd in soup.findAll('dl', {'class':'column-related inline-list'}, limit=1):
       for tag in dd.findAll('a', {'class':'text'}):
         relatedtag = str(tag.string)
+        relatedtag = re.sub(r',',u'，', relatedtag)
         relatedtag.replace(',', u'，')
         rtaglist.append(relatedtag)
       if len(rtaglist) > 8:
         rtaglist = list(set(rtaglist))
-      return rtaglist
+    for n in rtaglist:
+        if n.count(",") > 0:
+            logging.info(n)
+            n = n.replace(",",u"，")
+        commacheck.append(n)
+          
+      return commacheck
   except:
-    print 'Error at pixivLogin():',sys.exc_info()
+    print 'Tag not found!:',sys.exc_info()
     print 'failed'
     return
   

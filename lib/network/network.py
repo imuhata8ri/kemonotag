@@ -11,6 +11,9 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 sys.path.append(os.pardir + '/lib/')
 
+import logging
+import logging.handlers
+
 import StringIO
 import networkx as nx
 import matplotlib.pyplot as plt
@@ -22,23 +25,30 @@ def createjson(datas):
     #-------------------------Define Edges-------------------------:
     
     #allLines = open('edges5.Csv').read().encode('utf-8')
-    allLines = datas.encode('utf-8')
+    allLines = datas
     #allLines = open(/csv).read().encode('utf-8')
+    list = allLines.splitlines()
+    datalist = []
+    for n in list:
+        if n.count(",") > 1:
+            logging.info(n)
+            n = n.replace(",",u"，").replace(u"，",",", 1)
+        datalist.append(n)
+    datalist = '\n'.join(datalist)
     
-    data = StringIO.StringIO(allLines)
+    datalist = StringIO.StringIO(datalist)
     G = nx.Graph()
-    edges = nx.read_edgelist(data, delimiter=',', nodetype=unicode)
-    
+    edges = nx.read_edgelist(datalist, delimiter=',', nodetype=unicode)
     for e in edges.edges():
         G.add_edge(*e)
     
     #-------------------------Calculate statistics-------------------------
     N,K = edges.order(), edges.size()
-    print "Nodes: ", N
-    print "Edges: ", K
+    logging.info("Nodes: ", N)
+    logging.debug("Edges: ", K)
     
     avg_deg = int(math.ceil(float(K)/N))
-    print "Average degree: ", avg_deg
+    logging.debug( "Average degree: ", avg_deg)
     
     degree = G.degree()
     degreelist = []
@@ -53,14 +63,14 @@ def createjson(datas):
     toplist = degreelist[int(len(degreelist) * topp/100) : int(len(degreelist))]
     median=sorted(degreelist)[len(degreelist)/2]
     mediantopp=sorted(toplist)[len(toplist)/2]
-    print "Degree Median: ", median
-    print "Degree Median(top %): ", mediantopp
+    logging.debug( "Degree Median: ", median)
+    logging.debug( "Degree Median(top %): ", mediantopp)
     
     Range = (max(degreelist)-min(degreelist))
     Rangetopp = (max(toplist)-min(toplist))
     
-    print "Degree Range: ", Range
-    print "Degree Range(top %): ", Rangetopp
+    logging.debug( "Degree Range: ", Range)
+    logging.debug( "Degree Range(top %): ", Rangetopp)
     
     
     #-------------------------Trim down tagalongs-------------------------
